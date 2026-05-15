@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tablero de Control - Gerente Tecnología</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-server"></i>
+                    <span>TechManager</span>
+                </div>
+                <button class="close-sidebar" onclick="toggleSidebar()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-module="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-module="meetings">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Reuniones</span>
+                    <span class="badge" id="badge-meetings">0</span>
+                </a>
+                <a href="#" class="nav-item" data-module="assignments">
+                    <i class="fas fa-tasks"></i>
+                    <span>Asignaciones</span>
+                    <span class="badge" id="badge-assignments">0</span>
+                </a>
+                <a href="#" class="nav-item" data-module="requests">
+                    <i class="fas fa-file-signature"></i>
+                    <span>Solicitudes</span>
+                    <span class="badge" id="badge-requests">0</span>
+                </a>
+                <a href="#" class="nav-item" data-module="clients">
+                    <i class="fas fa-users"></i>
+                    <span>Clientes</span>
+                    <span class="badge" id="badge-clients">0</span>
+                </a>
+                <a href="#" class="nav-item" data-module="todos">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Por Hacer</span>
+                    <span class="badge" id="badge-todos">0</span>
+                </a>
+                <a href="#" class="nav-item" data-module="services">
+                    <i class="fas fa-bell"></i>
+                    <span>Servicios</span>
+                    <span class="badge warning" id="badge-services">0</span>
+                </a>
+                <a href="#" class="nav-item" data-module="critical">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Serv. Críticos</span>
+                    <span class="badge danger" id="badge-critical">0</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="header-title">
+                    <h1>Tablero de Control - Área de Tecnología</h1>
+                    <p id="current-date"></p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-notification" onclick="showNotifications()">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-dot" id="notification-dot"></span>
+                    </button>
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Gerente IT</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Module -->
+            <section class="module active" id="module-dashboard">
+                <div class="dashboard-grid">
+                    <!-- Quick Stats -->
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Reuniones Hoy</h3>
+                            <p class="stat-value" id="stat-meetings-today">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Asignaciones Pendientes</h3>
+                            <p class="stat-value" id="stat-assignments-pending">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Solicitudes Activas</h3>
+                            <p class="stat-value" id="stat-requests-active">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Servicios Caídos</h3>
+                            <p class="stat-value" id="stat-services-down">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerts Panel -->
+                <div class="alerts-panel">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Alertas Activas</h2>
+                    <div id="alerts-container" class="alerts-container">
+                        <!-- Alerts will be dynamically inserted here -->
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h2>Acciones Rápidas</h2>
+                    <div class="actions-grid">
+                        <button class="action-btn" onclick="openModal('meeting')">
+                            <i class="fas fa-calendar-plus"></i>
+                            <span>Nueva Reunión</span>
+                        </button>
+                        <button class="action-btn" onclick="openModal('assignment')">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Nueva Asignación</span>
+                        </button>
+                        <button class="action-btn" onclick="openModal('request')">
+                            <i class="fas fa-file-import"></i>
+                            <span>Nueva Solicitud</span>
+                        </button>
+                        <button class="action-btn" onclick="openModal('todo')">
+                            <i class="fas fa-plus-circle"></i>
+                            <span>Nueva Tarea</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Meetings Module -->
+            <section class="module" id="module-meetings">
+                <div class="module-header">
+                    <h2><i class="fas fa-calendar-alt"></i> Reuniones</h2>
+                    <button class="btn-primary" onclick="openModal('meeting')">
+                        <i class="fas fa-plus"></i> Nueva Reunión
+                    </button>
+                </div>
+                <div class="meetings-content">
+                    <div class="calendar-section">
+                        <div class="calendar-header">
+                            <button onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                            <h3 id="calendar-month"></h3>
+                            <button onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <div class="calendar-grid" id="calendar-grid">
+                            <!-- Calendar days will be generated here -->
+                        </div>
+                    </div>
+                    <div class="meetings-list">
+                        <h3>Próximas Reuniones</h3>
+                        <div id="meetings-list-container">
+                            <!-- Meetings list will be dynamically inserted -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Assignments Module -->
+            <section class="module" id="module-assignments">
+                <div class="module-header">
+                    <h2><i class="fas fa-tasks"></i> Asignaciones a Empleados</h2>
+                    <button class="btn-primary" onclick="openModal('assignment')">
+                        <i class="fas fa-plus"></i> Nueva Asignación
+                    </button>
+                </div>
+                <div class="filters">
+                    <select id="filter-employee" onchange="filterAssignments()">
+                        <option value="">Todos los empleados</option>
+                    </select>
+                    <select id="filter-status" onchange="filterAssignments()">
+                        <option value="">Todos los estados</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="en_progreso">En Progreso</option>
+                        <option value="completado">Completado</option>
+                    </select>
+                </div>
+                <div class="assignments-grid" id="assignments-container">
+                    <!-- Assignments will be dynamically inserted here -->
+                </div>
+            </section>
+
+            <!-- Requests Module -->
+            <section class="module" id="module-requests">
+                <div class="module-header">
+                    <h2><i class="fas fa-file-signature"></i> Solicitudes de Servicios</h2>
+                    <button class="btn-primary" onclick="openModal('request')">
+                        <i class="fas fa-plus"></i> Nueva Solicitud
+                    </button>
+                </div>
+                <div class="requests-tabs">
+                    <button class="tab-btn active" data-tab="employees" onclick="switchRequestTab('employees')">
+                        <i class="fas fa-users"></i> A Empleados
+                    </button>
+                    <button class="tab-btn" data-tab="departments" onclick="switchRequestTab('departments')">
+                        <i class="fas fa-building"></i> A Departamentos
+                    </button>
+                </div>
+                <div class="requests-content" id="requests-container">
+                    <!-- Requests will be dynamically inserted here -->
+                </div>
+            </section>
+
+            <!-- Clients Module -->
+            <section class="module" id="module-clients">
+                <div class="module-header">
+                    <h2><i class="fas fa-users"></i> Atención a Clientes</h2>
+                    <button class="btn-primary" onclick="openModal('client')">
+                        <i class="fas fa-plus"></i> Nueva Necesidad
+                    </button>
+                </div>
+                <div class="clients-grid" id="clients-container">
+                    <!-- Clients will be dynamically inserted here -->
+                </div>
+            </section>
+
+            <!-- Todos Module -->
+            <section class="module" id="module-todos">
+                <div class="module-header">
+                    <h2><i class="fas fa-clipboard-list"></i> Cosas por Hacer - Departamento</h2>
+                    <button class="btn-primary" onclick="openModal('todo')">
+                        <i class="fas fa-plus"></i> Nueva Tarea
+                    </button>
+                </div>
+                <div class="todos-filters">
+                    <select id="filter-priority" onchange="filterTodos()">
+                        <option value="">Todas las prioridades</option>
+                        <option value="alta">Alta</option>
+                        <option value="media">Media</option>
+                        <option value="baja">Baja</option>
+                    </select>
+                </div>
+                <div class="todos-container" id="todos-container">
+                    <!-- Todos will be dynamically inserted here -->
+                </div>
+            </section>
+
+            <!-- Services Module -->
+            <section class="module" id="module-services">
+                <div class="module-header">
+                    <h2><i class="fas fa-bell"></i> Servicios por Vencer</h2>
+                    <button class="btn-primary" onclick="openModal('service')">
+                        <i class="fas fa-plus"></i> Nuevo Servicio
+                    </button>
+                </div>
+                <div class="services-status-bar">
+                    <div class="status-item">
+                        <span class="status-dot expiring"></span>
+                        <span>Por Vencer (7 días)</span>
+                        <span class="count" id="count-expiring">0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-dot normal"></span>
+                        <span>Normales</span>
+                        <span class="count" id="count-normal">0</span>
+                    </div>
+                </div>
+                <div class="services-grid" id="services-container">
+                    <!-- Services will be dynamically inserted here -->
+                </div>
+            </section>
+
+            <!-- Critical Services Module -->
+            <section class="module" id="module-critical">
+                <div class="module-header">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Servicios Críticos</h2>
+                    <button class="btn-danger" onclick="openModal('critical-service')">
+                        <i class="fas fa-plus"></i> Agregar Servicio
+                    </button>
+                </div>
+                <div class="critical-status">
+                    <div class="status-overview">
+                        <div class="status-box up">
+                            <i class="fas fa-check-circle"></i>
+                            <h3 id="critical-up-count">0</h3>
+                            <p>Servicios Activos</p>
+                        </div>
+                        <div class="status-box down">
+                            <i class="fas fa-times-circle"></i>
+                            <h3 id="critical-down-count">0</h3>
+                            <p>Servicios Caídos</p>
+                        </div>
+                    </div>
+                    <button class="btn-notify-all" onclick="notifyAllDepartments()">
+                        <i class="fas fa-bullhorn"></i> Notificar a Todos los Departamentos
+                    </button>
+                </div>
+                <div class="critical-services-grid" id="critical-services-container">
+                    <!-- Critical services will be dynamically inserted here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal Container -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Título del Modal</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Modal content will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Panel -->
+    <div class="notifications-panel" id="notifications-panel">
+        <div class="notifications-header">
+            <h3>Notificaciones</h3>
+            <button onclick="markAllRead()">Marcar todo como leído</button>
+        </div>
+        <div class="notifications-list" id="notifications-list">
+            <!-- Notifications will be dynamically inserted -->
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
+

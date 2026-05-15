@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2020",                       /* Especifica la versión de ECMAScript de destino. */
+    "module": "commonjs",                     /* Especifica la generación de código de módulo. */
+    "outDir": "./dist",                       /* Redirige la estructura de salida al directorio. */
+    "rootDir": "./",                          /* Especifica el directorio raíz de los archivos de entrada. */
+    "strict": true,                           /* Habilita todas las opciones de comprobación de tipos estrictas. */
+    "moduleResolution": "node",               /* Resuelve los módulos como Node.js. ESTA ES LA CLAVE PARA CORREGIR LOS ERRORES. */
+    "esModuleInterop": true,                  /* Permite la interoperabilidad con módulos CommonJS. */
+    "skipLibCheck": true,                     /* Omite la comprobación de tipos de los archivos de declaración. */
+    "forceConsistentCasingInFileNames": true, /* No permite referencias al mismo archivo con un uso incoherente de mayúsculas y minúsculas. */
+    "resolveJsonModule": true                 /* Permite importar módulos .json. */
+  },
+  "include": [
+    "**/*.ts"                                 /* Incluye todos los archivos .ts en el directorio y subdirectorios. */
+  ],
+  "exclude": [
+    "node_modules",                           /* Excluye la carpeta node_modules de la compilación. */
+    "dist"                                    /* Excluye la carpeta de salida. */
+  ]
+}
