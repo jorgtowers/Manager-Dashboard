@@ -1,0 +1,42 @@
+.meetings-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px; /* Para evitar que la tarjeta crezca demasiado */
+  overflow-y: auto;
+}
+
+.meeting-item {
+  padding: 0.75rem 0.25rem;
+  border-bottom: 1px solid #ecf0f1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.meeting-item:last-child {
+  border-bottom: none;
+}
+
+.meeting-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+}
+
+.meeting-info strong {
+  color: #2c3e50;
+}
+
+.meeting-participants, .meeting-info span {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-weight: 500;
+  text-align: center;
+  padding: 1rem;
+}

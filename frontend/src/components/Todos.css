@@ -1,0 +1,73 @@
+.todos-container {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px; /* Espacio para la barra de scroll */
+}
+
+.todos-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.todo-item:hover {
+  background-color: #e9ecef;
+}
+
+.todo-item.completed {
+  background-color: #f0fdf4; /* Un verde muy claro */
+}
+
+.todo-item.completed .todo-title {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.todo-status-icon {
+  font-size: 1.2rem;
+  margin-right: 1rem;
+  color: #adb5bd;
+  cursor: pointer; /* Para futura interactividad */
+}
+
+.todo-item.completed .todo-status-icon {
+  color: #2ecc71;
+}
+
+.todo-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.todo-title {
+  font-weight: 500;
+  color: #343a40;
+}
+
+.todo-due-date {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.todo-priority {
+  font-size: 1rem;
+  margin-left: 1rem;
+}
+
+/* Colores de Prioridad */
+.todo-priority.priority-high { color: #e74c3c; }
+.todo-priority.priority-medium { color: #f39c12; }
+.todo-priority.priority-low { color: #3498db; }
