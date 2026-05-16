@@ -3,7 +3,8 @@ import { Todo, Priority } from '../types';
 import { todoApi } from '../services/apiService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faCircle } from '@fortawesome/free-regular-svg-icons';
-import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { faExclamationCircle, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import AddTodoForm from './AddTodoForm';
 import './Todos.css';
 
 // Helper para obtener la clase CSS según la prioridad
@@ -20,6 +21,7 @@ const Todos: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [showAddForm, setShowAddForm] = useState(false);
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -65,6 +67,17 @@ const Todos: React.FC = () => {
     }
   };
 
+  const handleTodoAdded = (newTodo: Todo) => {
+    const updatedTodos = [...todos, newTodo].sort((a, b) => {
+      if (a.completed !== b.completed) {
+        return a.completed ? 1 : -1;
+      }
+      return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+    });
+    setTodos(updatedTodos);
+    setShowAddForm(false);
+  };
+
   if (loading) {
     return <p>Cargando tareas...</p>;
   }
@@ -74,36 +87,47 @@ const Todos: React.FC = () => {
   }
 
   return (
-    <div className="todos-container">
-      {todos.length === 0 ? (
-        <p>¡No hay tareas pendientes!</p>
-      ) : (
-        <ul className="todos-list">
-          {todos.map((todo) => (
-            <li key={todo.id} className={`todo-item ${todo.completed ? 'completed' : ''}`}>
-              <div
-                className="todo-status-icon"
-                onClick={() => todo.id && handleToggleComplete(todo.id, todo.completed)}
-                role="button"
-                aria-label={`Marcar tarea ${todo.title} como ${todo.completed ? 'incompleta' : 'completada'}`}
-                tabIndex={0}
-              >
-                <FontAwesomeIcon icon={todo.completed ? faCheckCircle : faCircle} />
-              </div>
-              <div className="todo-details">
-                <span className="todo-title">{todo.title}</span>
-                <span className="todo-due-date">
-                  Vence: {new Date(todo.dueDate + 'T00:00:00').toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
-                </span>
-              </div>
-              <div className={`todo-priority ${getPriorityClass(todo.priority)}`}>
-                <FontAwesomeIcon icon={faExclamationCircle} title={`Prioridad: ${todo.priority}`} />
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <>
+      <div className="todos-header">
+        <button className="add-todo-btn" onClick={() => setShowAddForm(!showAddForm)}>
+          <FontAwesomeIcon icon={showAddForm ? faTimes : faPlus} />
+          {showAddForm ? ' Cancelar' : ' Nueva Tarea'}
+        </button>
+      </div>
+
+      {showAddForm && <AddTodoForm onTodoAdded={handleTodoAdded} />}
+
+      <div className="todos-container">
+        {todos.length === 0 ? (
+          <p>¡No hay tareas pendientes!</p>
+        ) : (
+          <ul className="todos-list">
+            {todos.map((todo) => (
+              <li key={todo.id} className={`todo-item ${todo.completed ? 'completed' : ''}`}>
+                <div
+                  className="todo-status-icon"
+                  onClick={() => todo.id && handleToggleComplete(todo.id, todo.completed)}
+                  role="button"
+                  aria-label={`Marcar tarea ${todo.title} como ${todo.completed ? 'incompleta' : 'completada'}`}
+                  tabIndex={0}
+                >
+                  <FontAwesomeIcon icon={todo.completed ? faCheckCircle : faCircle} />
+                </div>
+                <div className="todo-details">
+                  <span className="todo-title">{todo.title}</span>
+                  <span className="todo-due-date">
+                    Vence: {new Date(todo.dueDate + 'T00:00:00').toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
+                  </span>
+                </div>
+                <div className={`todo-priority ${getPriorityClass(todo.priority)}`}>
+                  <FontAwesomeIcon icon={faExclamationCircle} title={`Prioridad: ${todo.priority}`} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </>
   );
 };
 

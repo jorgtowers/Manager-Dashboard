@@ -1,3 +1,29 @@
+.assignments-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.add-assignment-btn {
+  background-color: transparent; /* Fondo transparente */
+  color: #3498db; /* Color del texto/icono */
+  border: 1px solid #3498db; /* Borde del mismo color */
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s; /* Transición para todos los cambios */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-assignment-btn:hover {
+  background-color: #3498db; /* Fondo azul al pasar el ratón */
+  color: white; /* Texto blanco al pasar el ratón */
+}
+
 .assignments-container {
   max-height: 400px; /* Limita la altura para que no crezca indefinidamente */
   overflow-y: auto;
@@ -28,6 +54,40 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 0.5rem;
+}
+
+.assignment-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0; /* Evita que los botones se encojan */
+}
+
+.btn-edit,
+.btn-delete {
+  background: none;
+  border: none;
+  color: #95a5a6;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.btn-edit:hover {
+  background-color: #ecf0f1;
+  color: #3498db;
+}
+
+.btn-delete:hover {
+  background-color: #fbe9e7; /* Light red background */
+  color: #e74c3c; /* Red icon */
 }
 
 .assignment-card-header h3 {
